@@ -73,7 +73,6 @@ def index():
 @app.route('/record/add', methods=['POST'])
 def add_record():
     try:
-        print(request.form)
         date = request.form['date']
         liters = float(request.form['liters'])
         cost = float(request.form['cost'])
@@ -135,8 +134,6 @@ def edit_record(id):
         vehicles = c.fetchall()
         c.execute('SELECT ref_fuel.id,ref_fuel.name,ref_fuel.fuel_type,ref_fuel.type FROM ref_fuel JOIN vehicle ON vehicle.fuel=ref_fuel.fuel_type JOIN records ON records.id=?', (id,))
         fuels = c.fetchall()
-        print(record)
-        print(fuels)
         conn.close()
         return render_template('edit.html', record=record, stations=stations,vehicles=vehicles,fuels=fuels)
 
