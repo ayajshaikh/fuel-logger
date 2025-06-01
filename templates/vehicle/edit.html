@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Vehicle Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background: #28a745;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background: #218838;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media (min-width: 600px) {
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Edit Vehicle Record</h1>
+        <form action="/vehicle/edit/{{ record[0] }}" method="post">
+            <input name="make" value="{{ record[1] }}" required>
+            <input name="model" value="{{ record[2] }}" required>
+            <input name="registration" value="{{ record[3] }}" required>
+            <select name="fuel_type_id" required>
+                {% for fuel in fuels %}
+                <option value="{{ fuel[0] }}" {% if fuel[0] == record[4] %}selected{% endif %}>
+                    {{ fuel[0] }}
+                </option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Update Record">
+        </form>
+        <a href="/vehicle">← Back to Vehicle List</a>
+    </div>
+</body>
+
+</html>

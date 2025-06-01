@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Edit Petrol Record</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f4f4;
+        }
+
+        .container {
+            padding: 20px;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        form {
+            background: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input,
+        select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background: #28a745;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background: #218838;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 15px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        @media (min-width: 600px) {
+            .container {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+        }
+    </style>
+</head>
+<script>
+    function loadFuels(vehicleId) {
+        fetch(`/vehicle/fuel/type/get/${vehicleId}`)
+            .then(response => response.json())
+            .then(data => {
+                const fuelSelect = document.getElementById('fuel_type_id');
+                fuelSelect.innerHTML = '';
+                data.fuels.forEach(fuel => {
+                    const option = document.createElement('option');
+                    option.value = fuel[0];
+                    option.textContent = fuel[1];
+                    fuelSelect.appendChild(option);
+                });
+            });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const vehicleSelect = document.getElementById('vehicle_id');
+        vehicleSelect.addEventListener('change', function () {
+            loadFuels(this.value);
+        });
+    });
+</script>
+
+<body>
+    <div class="container">
+        <h1>Edit Petrol Fill Record</h1>
+        <form action="/record/edit/{{ record[0] }}" method="post">
+            <input type="date" name="date" value="{{ record[1] }}" required>
+            <select id="fuel_type_id" name="fuel_type_id" required>
+                {% for fuel in fuels %}
+                <option value="{{ fuel[0] }}" {% if fuel[0]==record[8] %}selected{% endif %}>
+                    {{ fuel[1] }}
+                </option>
+                {% endfor %}
+            </select>
+            <input type="number" step="0.01" name="liters" value="{{ record[2] }}" required>
+            <input type="number" step="0.01" name="cost" value="{{ record[3] }}" required>
+            <input type="number" step="0.1" name="odometer" value="{{ record[4] }}" required>
+            <select name="station_id" required>
+                {% for station in stations %}
+                <option value="{{ station[0] }}" {% if station[0]==record[6] %}selected{% endif %}>
+                    {{ station[1] }} - {{ station[2] }}
+                </option>
+                {% endfor %}
+            </select>
+            <select id="vehicle_id" name="vehicle_id" required>
+                {% for vehicle in vehicles %}
+                <option value="{{ vehicle[0] }}" {% if vehicle[0]==record[7] %}selected{% endif %}>
+                    {{ vehicle[1] }} - {{ vehicle[3] }}
+                </option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Update Record">
+        </form>
+        <a href="/records">← Back to Records</a>
+    </div>
+</body>
+
+</html>

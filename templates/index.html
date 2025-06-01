@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Petrol Record Management</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+
+    .container {
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+    }
+
+    input,
+    select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #007BFF;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .link-button {
+      background: none;
+      color: #007BFF;
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 500;
+      text-decoration: underline;
+    }
+
+    .link-button:hover {
+      color: #0056b3;
+    }
+  </style>
+</head>
+<script>
+function loadFuels(vehicleId) {
+    fetch(`/vehicle/fuel/type/get/${vehicleId}`)
+        .then(response => response.json())
+        .then(data => {
+            const fuelSelect = document.getElementById('fuel_type_id');
+            fuelSelect.innerHTML = '';
+            data.fuels.forEach(fuel => {
+                const option = document.createElement('option');
+                option.value = fuel[0];
+                option.textContent = fuel[1];
+                fuelSelect.appendChild(option);
+            });
+        });
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const vehicleSelect = document.getElementById('vehicle_id');
+    vehicleSelect.addEventListener('change', function() {
+        loadFuels(this.value);
+    });
+
+    // Trigger fuel load on page load if a vehicle is already selected
+    if (vehicleSelect.value) {
+        loadFuels(vehicleSelect.value);
+    }
+});
+</script>
+<body>
+  <div class="container">
+    <h1>Add Petrol Fill Record</h1>
+    <form action="/record/add" method="post">
+      <label for="station">Vehicle:</label>
+      <select id="vehicle_id" name="vehicle_id" required>
+        {% for vehicle in vehicles %}
+        <option value="{{ vehicle[0] }}">{{ vehicle[3] }}</option>
+        {% endfor %}
+      </select>
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" required>
+      <label for="fuel">Fuel Type:</label>
+      <select id="fuel_type_id" name="fuel_type_id" required>
+        <option value="">Select fuel</option>
+      </select>
+      <label for="liters">Liters:</label>
+      <input type="number" id="liters" name="liters" step="0.01" required>
+      <label for="cost">Cost:</label>
+      <input type="number" id="cost" name="cost" step="0.01" required>
+      <label for="odometer">Odometer:</label>
+      <input type="number" id="odometer" name="odometer" required>
+      <label for="station">Station:</label>
+      <select id="station_id" name="station_id" required>
+        {% for station in stations %}
+        <option value="{{ station[0] }}">{{ station[1] }}</option>
+        {% endfor %}
+      </select>
+      <button type="submit">Add Record</button>
+    </form>
+    <button class="link-button" onclick="window.location.href='/records'">Show Records</button>
+    <button class="link-button" onclick="window.location.href='/analytics'">View Analytics</button>
+    <button class="link-button" onclick="window.location.href='/station'">Manage Petrol Station</button>
+    <button class="link-button" onclick="window.location.href='/vehicle'">Manage Vehicle</button>
+  </div>
+</body>
+
+</html>
