@@ -14,7 +14,7 @@ This project is a Flask web application for managing petrol records. It supports
 
 1. **Clone the repository**:
    ```bash
-   git clone git@github.com:ayajshaikh/fuel-logger.git
+   git clone https://github.com/ayajshaikh/fuel-logger.git
    cd fuel-logger
    ```
 2. **Create a virtual environment (optional but recommended)**:
