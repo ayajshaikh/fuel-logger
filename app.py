@@ -130,7 +130,9 @@ def add_record():
         date = request.form['date']
         liters = float(request.form['liters'])
         cost = float(request.form['cost'])
-        odometer = float(request.form['odometer'])
+        odometer = ''
+        if(request.form['odometer'] != ''):
+            odometer = float(request.form['odometer'])
         station_id = int(request.form['station_id'])
         vehicle_id = int(request.form['vehicle_id'])
         fuel_type_id = int(request.form['fuel_type_id'])
