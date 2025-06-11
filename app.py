@@ -521,10 +521,6 @@ def analytics():
 
     return render_template('analytics.html', graph=graph)
 
-if __name__ == '__main__':
-    """
-    Entry point of the application.
-
     Initialises the database and starts the Flask development server.
     """
     init_db()
