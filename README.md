@@ -28,10 +28,10 @@ This project is a Flask web application for managing petrol records. It supports
    ```
 4. **Run the application**:
    ```bash
-   python app.py
+   gunicorn -w 1 -b 127.0.0.1:8000 app:app
    ```
 
 ## Installation
-1. Open your browser and go to http://localhost:5000
+1. Open your browser and go to http://127.0.0.1:8000
 2. Use the interface to manage vehicles, stations, and fuel records.
 3. Navigate to /analytics to view fuel consumption and cost trends.
