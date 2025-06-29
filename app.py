@@ -521,8 +521,6 @@ def analytics():
 
     return render_template('analytics.html', graph=graph)
     
-    """
-    Initialises the database and starts the Flask development server.
-    """
-    init_db()
-    app.run(host='0.0.0.0', port=5000, debug=True)
+if __name__ == '__main__':
+    app.run()
+
