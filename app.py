@@ -522,5 +522,4 @@ def analytics():
     return render_template('analytics.html', graph=graph)
     
 if __name__ == '__main__':
-    app.run()
-
+    app.run()
