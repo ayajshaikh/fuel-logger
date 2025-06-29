@@ -520,7 +520,8 @@ def analytics():
     buf.close()
 
     return render_template('analytics.html', graph=graph)
-
+    
+    """
     Initialises the database and starts the Flask development server.
     """
     init_db()
